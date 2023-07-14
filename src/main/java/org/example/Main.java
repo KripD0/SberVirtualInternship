@@ -12,7 +12,8 @@ public class Main {
         List<City> cities = fillArray();
 
         //sort(cities);
-        findCityByHighestPopulation(cities);
+        //findCityByHighestPopulation(cities);
+        countCities(cities);
     }
     
     public static List<City> fillArray(){
@@ -55,5 +56,15 @@ public class Main {
             }
         }
         System.out.println("[" + maxPopulationIndex + "] = " + maxPopulation);
+    }
+
+    public static void countCities(List<City> cities){
+        Map<String, Integer> countCities = new HashMap<>();
+        for (City city: cities){
+            countCities.merge(city.getRegion(), 1, Integer::sum);
+        }
+        for (Map.Entry<String, Integer> current: countCities.entrySet()){
+            System.out.println(current.getKey() + " - " + current.getValue());
+        }
     }
 }

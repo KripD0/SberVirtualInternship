@@ -9,6 +9,13 @@ import java.util.*;
 public class Main {
 
     public static void main(String[] args) {
+        List<City> cities = fillArray();
+
+        //sort(cities);
+        findCityByHighestPopulation(cities);
+    }
+    
+    public static List<City> fillArray(){
         //У вас в файле в нескольких строках было элементов не 6 а 5 из-за этого возникал exception ArrayIndexOutOfBoundsException.
         //Я просто через debug нашел в каких строках не хватало информации и добавил, если эту ошибку нужно было как то обрабатывать то хоть написали бы что вместо пустыз значений поставить какое нибудь дефолтное или null.
         String pathToFile = "src/main/resources/source.csv";
@@ -22,7 +29,7 @@ public class Main {
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
-        sort(cities);
+        return  cities;
     }
 
     public static void sort(List<City> cities){
@@ -33,5 +40,20 @@ public class Main {
         Comparator<City> nameComparator = Comparator.comparing(City::getName);
         cities.sort(districtComparator.thenComparing(nameComparator));
         cities.forEach(System.out::println);
+    }
+
+    public static void findCityByHighestPopulation(List<City> cities){
+        //Не совсем понятно для чего нужно было преобразовывать в массив, если можно просто было пройтись по ArrayList это же тот же самый массив.
+        City[] arrayCities = new City[cities.size()];
+        long maxPopulation = Long.MIN_VALUE;
+        int maxPopulationIndex = 0;
+        for (int i = 0; i < cities.size(); i++){
+            arrayCities[i] = cities.get(i);
+            if (arrayCities[i].getPopulation() > maxPopulation){
+                maxPopulationIndex = i;
+                maxPopulation = arrayCities[i].getPopulation();
+            }
+        }
+        System.out.println("[" + maxPopulationIndex + "] = " + maxPopulation);
     }
 }

@@ -4,9 +4,7 @@ import org.example.models.City;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
 
@@ -24,6 +22,16 @@ public class Main {
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
+        sort(cities);
+    }
+
+    public static void sort(List<City> cities){
+        cities.sort((c1, c2) -> c1.getName().compareToIgnoreCase(c2.getName()));
+        cities.forEach(System.out::println);
+
+        Comparator<City> districtComparator = Comparator.comparing(City::getDistrict);
+        Comparator<City> nameComparator = Comparator.comparing(City::getName);
+        cities.sort(districtComparator.thenComparing(nameComparator));
         cities.forEach(System.out::println);
     }
 }
